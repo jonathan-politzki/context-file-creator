@@ -1,75 +1,94 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import claudeLogo from '../assets/claude-logo.png';
 
 const AboutPage = () => {
   const [suggestion, setSuggestion] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send this data to a server
     console.log('Suggestion submitted:', suggestion);
-    // Clear the input after submission
     setSuggestion('');
-    // You might want to show a success message to the user here
+    // Here you would typically send this data to a server
+    alert('Thank you for your suggestion!');
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
-      <nav className="p-4">
-        <ul className="flex space-x-4">
-          <li><Link to="/" className="hover:text-gray-300">Home</Link></li>
-          <li><Link to="/about" className="hover:text-gray-300">About</Link></li>
-        </ul>
+    <div className="min-h-screen bg-off-white text-gray-900">
+      <nav className="p-4 bg-claude-orange">
+        <div className="container mx-auto flex justify-between items-center">
+          <img src={claudeLogo} alt="Claude Logo" className="h-8" />
+          <ul className="flex space-x-4">
+            <li><Link to="/" className="text-white hover:text-gray-200">Home</Link></li>
+            <li><Link to="/about" className="text-white hover:text-gray-200">About</Link></li>
+          </ul>
+        </div>
       </nav>
       
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">About Writer Analysis Tool</h1>
+        <h1 className="text-4xl font-bold mb-8 text-claude-orange">About Claude Agent Project Context Generator</h1>
         
-        {/* Project Delta Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">Project Delta</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-claude-orange">What is this tool?</h2>
           <p className="mb-4">
-            Learn more about the inspiration behind this tool in the 
-            <a href="https://jonathanpolitzki.substack.com/p/project-delta" 
-               className="text-blue-400 hover:text-blue-300 ml-1" 
-               target="_blank" 
-               rel="noopener noreferrer">
-              Project Delta write-up
-            </a>.
+            The Claude Agent Project Context Generator is a user-friendly tool designed to help developers easily share their project context with Claude AI. It simplifies the process of getting your project files into a format that Claude can understand and analyze.
           </p>
-        </section>
-        
-        {/* Quote Section */}
-        <section className="mb-12">
-          <blockquote className="border-l-4 border-blue-500 pl-4 py-2 italic">
-            "To know thyself is the beginning of wisdom." - Socrates
-          </blockquote>
-        </section>
-        
-        {/* About This Project Section */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-4">About This Project</h2>
-          <p>
-            We believe that writing is an intimate projection of an author's mind and that everyone has a unique "fingerprint". The Writer Analysis Tool is designed to provide insights into writing styles and an authors personality using advanced language processing techniques. 
-            Our goal is to help writers understand their unique voice and compare it with others in the literary world. We also believe this technique can be used to understand how you are uniquely differentiated in the sea of other writers.
-          </p>
-        </section>
-        
-        {/* About the Creator Section */}
-        <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4">About the Creator</h2>
-            <p>
-                My name is <a href="https://jonathanpolitzki.com" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Jonathan Politzki</a>. I love technology, writing, and I recently launched this project to help writers better understand themselves. Any feedback is much appreciated. I'd love to hear how I can make this tool better for you.
-            </p>
         </section>
 
-        {/* Suggestion Input Section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4 text-claude-orange">How does it work?</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter your GitHub repository URL on the home page.</li>
+            <li>Our tool clones your repository and analyzes its structure.</li>
+            <li>It generates a single file containing the most relevant parts of your project.</li>
+            <li>This file is optimized for upload to Claude, making it easy for the AI to understand your project context.</li>
+          </ol>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4 text-claude-orange">Why use this tool?</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>Saves time: No need to manually copy and paste files or explain your project structure.</li>
+            <li>Improves accuracy: Ensures Claude has the most relevant information about your project.</li>
+            <li>Easy to use: Designed for developers of all skill levels, from beginners to experts.</li>
+            <li>Respects privacy: Only processes public repositories and doesn't store your code.</li>
+          </ul>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4 text-claude-orange">Tips for best results</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>Ensure your repository is public and up-to-date.</li>
+            <li>Include a clear README.md file in your project root.</li>
+            <li>Use meaningful file and folder names.</li>
+            <li>Comment your code to provide context where necessary.</li>
+          </ul>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4 text-claude-orange">FAQs</h2>
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-semibold">Q: Is my code safe?</h3>
+              <p>A: Yes, we only process public repositories and don't store any of your code. The generated file is for your use only.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Q: What types of projects can I use this for?</h3>
+              <p>A: Any project hosted on GitHub! Whether it's a web app, mobile app, data analysis project, or anything else, our tool can help.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Q: Do I need to be an expert programmer to use this?</h3>
+              <p>A: Not at all! This tool is designed to be user-friendly for developers of all skill levels.</p>
+            </div>
+          </div>
+        </section>
+
         <section className="mt-12">
-          <h2 className="text-2xl font-semibold mb-4">Suggest a Feature</h2>
-          <p className="mb-4">We value your input! What would you like this tool to tell you about yourself and your writing?</p>
+          <h2 className="text-2xl font-semibold mb-4 text-claude-orange">Suggest a Feature</h2>
+          <p className="mb-4">We're always looking to improve! What would you like this tool to do better?</p>
           <form onSubmit={handleSubmit} className="max-w-lg">
             <textarea
-              className="w-full p-2 text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-claude-orange"
               rows="4"
               value={suggestion}
               onChange={(e) => setSuggestion(e.target.value)}
@@ -77,7 +96,7 @@ const AboutPage = () => {
             ></textarea>
             <button
               type="submit"
-              className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              className="mt-2 px-4 py-2 bg-claude-orange text-white rounded hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-claude-orange focus:ring-opacity-50"
             >
               Submit Suggestion
             </button>
@@ -89,4 +108,3 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-
