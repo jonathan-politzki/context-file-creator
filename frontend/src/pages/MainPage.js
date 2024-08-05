@@ -1,18 +1,45 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import claudeLogo from '../assets/claude-logo.png'; // Make sure to add this file to your assets folder
+import claudeLogo from '../assets/claude-logo.png';
 
 const MainPage = () => {
   const [url, setUrl] = useState('');
-  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [downloadLink, setDownloadLink] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitted URL:', url);
-    setShowAnalysis(true);
-  };
-
+    setLoading(true);
+    setError(null);
+    setDownloadLink(null);
+  
+    try {
+      const response = await fetch('http://localhost:3001/generate-context', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ repoUrl: url }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate context file');
+      }
+  
+      const data = await response.json();
+      const filename = data.filePath.split('/').pop();
+      setDownloadLink(`http://localhost:3001/download/${filename}`);
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };  
+  
   return (
     <div className="min-h-screen bg-off-white text-gray-900 flex flex-col items-center justify-center">
       <nav className="absolute top-0 left-0 right-0 p-4 bg-claude-orange">
@@ -40,14 +67,15 @@ const MainPage = () => {
           <button
             className="flex-shrink-0 bg-claude-orange hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
             type="submit"
+            disabled={loading}
           >
-            Analyze
+            {loading ? 'Processing...' : 'Analyze'}
           </button>
         </div>
       </form>
       
       <AnimatePresence>
-        {showAnalysis && (
+        {(error || downloadLink) && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
@@ -55,8 +83,22 @@ const MainPage = () => {
             transition={{ duration: 0.5 }}
             className="w-full max-w-4xl mt-8 bg-white rounded-lg p-6 shadow-lg overflow-hidden"
           >
-            <h2 className="text-2xl font-bold mb-4 text-claude-orange">Analysis Results</h2>
-            <p className="text-gray-700">This is where your analysis results and visualizations will appear.</p>
+            {error && (
+              <p className="text-red-500">{error}</p>
+            )}
+            {downloadLink && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-claude-orange">Context File Generated</h2>
+                <p className="text-gray-700 mb-4">Your project context file is ready for download.</p>
+                <a
+                  href={downloadLink}
+                  download
+                  className="bg-claude-orange hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Download Context File
+                </a>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
