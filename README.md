@@ -5,6 +5,16 @@ A script that intakes a link of your repository, pulls files, their structure, a
 This tool generates a comprehensive context of a GitHub project by cloning the repository and merging selected files into a single document. It's particularly useful for providing context to large language models (LLMs) or for creating project overviews.
 Features
 
+Potential future additions:
+
+Adding support for private repositories (using GitHub API tokens)
+Implementing a web interface where users can input a GitHub URL
+Adding options to customize exclude patterns and include extensions via command-line arguments
+Generating output in different formats (e.g., Markdown, HTML)
+Implementing a caching system to avoid re-cloning repositories that have been processed recently
+
+
+
 Clones GitHub repositories
 Automatic file selection based on extensions
 Exclusion of common unnecessary directories (e.g., node_modules, .git)

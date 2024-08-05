@@ -1,0 +1,15 @@
+{
+    "name": "github-project-context-generator",
+    "version": "1.0.0",
+    "description": "Generate comprehensive context of a GitHub project by cloning and merging selected files",
+    "main": "src/index.js",
+    "scripts": {
+      "start": "node src/index.js"
+    },
+    "keywords": ["github", "project", "context", "generator", "llm"],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+      "fs-extra": "^10.0.0"
+    }
+  }
