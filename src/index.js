@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const { execSync } = require('child_process');
 const os = require('os');
+const minimatch = require('minimatch');
 
 async function cloneRepository(repoUrl) {
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'project-context-'));
@@ -10,21 +11,21 @@ async function cloneRepository(repoUrl) {
   return tempDir;
 }
 
-async function processDirectory(dir, excludePatterns, includeExtensions) {
+async function processDirectory(dir, excludePatterns, includePatterns) {
   const selectedFiles = [];
   const entries = await fs.readdir(dir, { withFileTypes: true });
 
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
+    const relativePath = path.relative(dir, fullPath);
     
     if (entry.isDirectory()) {
-      if (!excludePatterns.includes(entry.name)) {
-        const subFiles = await processDirectory(fullPath, excludePatterns, includeExtensions);
+      if (!excludePatterns.some(pattern => minimatch(relativePath, pattern))) {
+        const subFiles = await processDirectory(fullPath, excludePatterns, includePatterns);
         selectedFiles.push(...subFiles);
       }
     } else {
-      const extension = path.extname(entry.name).toLowerCase();
-      if (includeExtensions.includes(extension)) {
+      if (includePatterns.some(pattern => minimatch(relativePath, pattern))) {
         selectedFiles.push(fullPath);
       }
     }
@@ -52,21 +53,23 @@ function getTimestampedFileName(repoName) {
   return `${repoName}-context-${timestamp}.txt`;
 }
 
-async function generateProjectContext(repoUrl) {
+async function generateProjectContext(repoUrl, options) {
   const clonedDir = await cloneRepository(repoUrl);
   
-  const excludePatterns = ['node_modules', '.git', '.github'];
-  const includeExtensions = ['.js', '.py', '.html', '.css', '.md', '.txt', '.json', '.yml', '.yaml', '.xml', '.svg'];
+  const baseDir = options.subfolder ? path.join(clonedDir, options.subfolder) : clonedDir;
+  const excludePatterns = options.exclude || ['node_modules/**', '.git/**', '.github/**'];
+  const includePatterns = options.include || ['**/*'];
   
   console.log('Processing repository...');
-  const selectedFiles = await processDirectory(clonedDir, excludePatterns, includeExtensions);
+  const selectedFiles = await processDirectory(baseDir, excludePatterns, includePatterns);
 
   const repoName = path.basename(repoUrl, '.git');
   const outputFileName = getTimestampedFileName(repoName);
-  const outputFilePath = path.join(process.cwd(), outputFileName);
+  const outputDir = options.output || process.cwd();
+  const outputFilePath = path.join(outputDir, outputFileName);
 
   console.log('Generating context file...');
-  await mergeFiles(selectedFiles, clonedDir, outputFilePath);
+  await mergeFiles(selectedFiles, baseDir, outputFilePath);
 
   console.log(`Project context generated and saved to: ${outputFilePath}`);
 
@@ -74,11 +77,33 @@ async function generateProjectContext(repoUrl) {
   await fs.rmdir(clonedDir, { recursive: true });
 }
 
-// Example usage
-const repoUrl = process.argv[2];
+// Parse command line arguments
+function parseArgs(args) {
+  const options = {};
+  let repoUrl;
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg.startsWith('--')) {
+      const [key, value] = arg.slice(2).split('=');
+      if (key === 'exclude' || key === 'include') {
+        options[key] = value.split(',');
+      } else {
+        options[key] = value;
+      }
+    } else if (!repoUrl) {
+      repoUrl = arg;
+    }
+  }
+
+  return { repoUrl, options };
+}
+
+const { repoUrl, options } = parseArgs(process.argv.slice(2));
+
 if (!repoUrl) {
   console.error('Please provide a GitHub repository URL');
   process.exit(1);
 }
 
-generateProjectContext(repoUrl).catch(console.error);
+generateProjectContext(repoUrl, options).catch(console.error);
