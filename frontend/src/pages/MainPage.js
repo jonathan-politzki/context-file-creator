@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import claudeLogo from '../assets/claude-logo.png';
 import { sendGAEvent } from '../analytics';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://context-gen-app-980c368d206f.herokuapp.com/';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://context-gen-app-980c368d206f.herokuapp.com';
 
 const MainPage = () => {
   const [url, setUrl] = useState('');

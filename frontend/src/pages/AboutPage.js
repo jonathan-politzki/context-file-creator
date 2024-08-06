@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import claudeLogo from '../assets/claude-logo.png';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com';
+const API_URL = process.env.REACT_APP_API_URL || 'https://context-gen-app-980c368d206f.herokuapp.com';
 
 const AboutPage = () => {
   const [suggestion, setSuggestion] = useState('');
