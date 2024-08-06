@@ -15,7 +15,12 @@ app.get('/', (req, res) => {
 });
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://repo-distillery.vercel.app', 'https://repo-distillery-47qelwkaj-jonathan-politzkis-projects.vercel.app'],
+  origin: [
+    'http://localhost:3000',
+    'https://repo-distillery.vercel.app',
+    'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com',
+    /https:\/\/repo-distillery-.*\.vercel\.app$/  // This will match all Vercel preview URLs
+  ],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
