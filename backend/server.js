@@ -10,6 +10,10 @@ const ignore = require('ignore');
 const app = express();
 const port = process.env.PORT || 3001;
 
+const feedbackDir = path.join(__dirname, 'feedback');
+fs.mkdir(feedbackDir, { recursive: true }).catch(console.error);
+
+
 app.get('/', (req, res) => {
   res.send('Repo Distillery Backend is running!');
 });
@@ -185,6 +189,28 @@ async function cloneRepository(repoUrl) {
       }
     }
   }
+
+  app.post('/api/submit-feedback', async (req, res) => {
+    try {
+      const { suggestion } = req.body;
+      if (!suggestion) {
+        return res.status(400).json({ error: 'Suggestion is required' });
+      }
+  
+      const timestamp = new Date().toISOString().replace(/:/g, '-');
+      const filename = `feedback_${timestamp}.txt`;
+      const filepath = path.join(feedbackDir, filename);
+  
+      await fs.writeFile(filepath, suggestion);
+  
+      console.log(`Feedback saved: ${filepath}`);
+      res.status(200).json({ message: 'Feedback submitted successfully' });
+    } catch (error) {
+      console.error('Error saving feedback:', error);
+      res.status(500).json({ error: 'Failed to save feedback' });
+    }
+  });
+  
   
   app.post('/generate-context', async (req, res) => {
     try {
