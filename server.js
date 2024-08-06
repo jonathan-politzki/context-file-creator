@@ -9,6 +9,9 @@ const ignore = require('ignore');
 
 const app = express();
 const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 
 app.use(cors({
   origin: ['http://localhost:3000', 'https://your-frontend-url.vercel.app'], // Add your frontend URL here, assuming this will need to be changed 
