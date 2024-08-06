@@ -2,15 +2,34 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import claudeLogo from '../assets/claude-logo.png';
 
+const API_URL = process.env.REACT_APP_API_URL || 'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com';
+
 const AboutPage = () => {
   const [suggestion, setSuggestion] = useState('');
+  const [submitStatus, setSubmitStatus] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Suggestion submitted:', suggestion);
-    setSuggestion('');
-    // Here you would typically send this data to a server
-    alert('Thank you for your suggestion!');
+    setSubmitStatus(null);
+    try {
+      const response = await fetch(`${API_URL}/api/submit-feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ suggestion }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setSuggestion('');
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error submitting suggestion:', error);
+      setSubmitStatus('error');
+    }
   };
 
   return (
@@ -101,6 +120,12 @@ const AboutPage = () => {
               Submit Suggestion
             </button>
           </form>
+          {submitStatus === 'success' && (
+          <p className="mt-2 text-green-600">Thank you for your suggestion!</p>
+        )}
+        {submitStatus === 'error' && (
+          <p className="mt-2 text-red-600">Failed to submit suggestion. Please try again.</p>
+        )}
         </section>
       </div>
     </div>
