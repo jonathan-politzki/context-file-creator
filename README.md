@@ -73,3 +73,51 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Anthropic](https://www.anthropic.com/) for Claude AI
 
+
+Repo-Distillery/
+├── backend/
+│   ├── back_env/
+│   ├── node_modules/
+│   └── src/
+│       ├── index.js
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── requirements.txt
+│       └── server.js
+├── frontend/
+│   ├── .vscode/
+│   ├── delta_env/
+│   ├── node_modules/
+│   ├── public/
+│   │   ├── favicon.png
+│   │   ├── index.html
+│   │   └── manifest.json
+│   └── src/
+│       ├── assets/
+│       │   └── claude-logo.png
+│       ├── components/
+│       ├── context/
+│       ├── hooks/
+│       ├── pages/
+│       │   ├── AboutPage.js
+│       │   ├── MainPage.js
+│       │   └── NotFound.js
+│       ├── services/
+│       ├── utils/
+│       ├── App.js
+│       ├── index.css
+│       ├── index.js
+│       ├── reportWebVitals.js
+│       ├── tailwind.css
+│       ├── .env.example
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── postcss.config.js
+│       ├── README.md
+│       ├── requirements.txt
+│       └── tailwind.config.js
+├── node_modules/
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── README.md
