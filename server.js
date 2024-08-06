@@ -5,6 +5,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const os = require('os');
 const { minimatch } = require('minimatch');
+const ignore = require('ignore');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -18,8 +19,29 @@ async function cloneRepository(repoUrl) {
     execSync(`git clone ${repoUrl} ${tempDir}`, { stdio: 'inherit' });
     return tempDir;
   }
+  async function readGitignore(dir) {
+    try {
+      const gitignorePath = path.join(dir, '.gitignore');
+      const gitignoreContent = await fs.readFile(gitignorePath, 'utf-8');
+      return ignore().add(gitignoreContent);
+    } catch (error) {
+      console.log('No .gitignore file found or unable to read it.');
+      return ignore();
+    }
+  }  
+  function isTextFile(filePath) {
+    const textExtensions = [
+      '.txt', '.md', '.js', '.jsx', '.ts', '.tsx', '.html', '.css', '.scss', '.json', '.yml', '.yaml', 
+      '.xml', '.csv', '.ini', '.conf', '.sh', '.bash', '.py', '.rb', '.php', '.java', '.c', '.cpp', 
+      '.h', '.swift', '.go', '.rs', '.lua', '.pl', '.sql', '.gitignore', '.env', '.editorconfig',
+      // Add any other text-based extensions you want to include
+    ];
+    const ext = path.extname(filePath).toLowerCase();
+    return textExtensions.includes(ext) || ext === '';
+  }
   
-  async function processDirectory(dir, excludePatterns, includePatterns) {
+
+  async function processDirectory(dir, excludePatterns, includePatterns, gitignore) {
     const selectedFiles = [];
     const entries = await fs.readdir(dir, { withFileTypes: true });
   
@@ -27,13 +49,23 @@ async function cloneRepository(repoUrl) {
       const fullPath = path.join(dir, entry.name);
       const relativePath = path.relative(dir, fullPath);
       
+      // Check if the file is ignored by .gitignore
+      if (gitignore.ignores(relativePath)) {
+        continue;
+      }
+      
+      // Skip Git internal files
+      if (isGitInternalFile(relativePath)) {
+        continue;
+      }
+      
       if (entry.isDirectory()) {
         if (!excludePatterns.some(pattern => minimatch(relativePath, pattern))) {
-          const subFiles = await processDirectory(fullPath, excludePatterns, includePatterns);
+          const subFiles = await processDirectory(fullPath, excludePatterns, includePatterns, gitignore);
           selectedFiles.push(...subFiles);
         }
       } else {
-        if (includePatterns.some(pattern => minimatch(relativePath, pattern))) {
+        if (includePatterns.some(pattern => minimatch(relativePath, pattern)) && isTextFile(fullPath)) {
           selectedFiles.push(fullPath);
         }
       }
@@ -41,6 +73,22 @@ async function cloneRepository(repoUrl) {
   
     return selectedFiles;
   }
+
+  function isGitInternalFile(filePath) {
+    const gitInternalPaths = [
+      '.git/objects',
+      '.git/refs',
+      '.git/logs',
+      '.git/hooks',
+      '.git/info',
+      '.git/packed-refs',
+      '.git/HEAD',
+      '.git/config',
+      '.git/description',
+      '.git/index',
+    ];
+    return gitInternalPaths.some(gitPath => filePath.includes(gitPath));
+  }  
   
   async function mergeFiles(selectedFiles, baseDir, outputFilePath) {
     let mergedContent = '';
@@ -88,11 +136,13 @@ async function cloneRepository(repoUrl) {
       clonedDir = await cloneRepository(repoUrl);
       
       const baseDir = options.subfolder ? path.join(clonedDir, options.subfolder) : clonedDir;
-      const excludePatterns = options.exclude || ['node_modules/**', '.git/**', '.github/**'];
+      const excludePatterns = options.exclude || ['.git/**', '.github/**'];
       const includePatterns = options.include || ['**/*'];
       
+      const gitignore = await readGitignore(baseDir);
+      
       console.log('Processing repository...');
-      const selectedFiles = await processDirectory(baseDir, excludePatterns, includePatterns);
+      const selectedFiles = await processDirectory(baseDir, excludePatterns, includePatterns, gitignore);
   
       const repoName = path.basename(repoUrl, '.git');
       const outputFileName = getTimestampedFileName(repoName);
@@ -109,38 +159,46 @@ async function cloneRepository(repoUrl) {
       console.error('Error in generateProjectContext:', error);
       throw error;
     } finally {
-      // Clean up
       if (clonedDir) {
         await fs.rm(clonedDir, { recursive: true, force: true }).catch(console.error);
       }
     }
   }
-
-app.post('/generate-context', async (req, res) => {
-  try {
-    const { repoUrl } = req.body;
-    const options = {}; // You can add more options here if needed
-
-    const outputFilePath = await generateProjectContext(repoUrl, options);
-    
-    res.json({ filePath: outputFilePath });
-  } catch (error) {
-    console.error('Error generating context:', error);
-    res.status(500).json({ error: 'An error occurred while generating the context file.' });
-  }
-});
-
-app.get('/download/:filename', async (req, res) => {
-  const filePath = path.join(os.tmpdir(), req.params.filename);
-  res.download(filePath, (err) => {
-    if (err) {
-      res.status(500).send('Error downloading the file.');
+  
+  app.post('/generate-context', async (req, res) => {
+    try {
+      console.log('Received request:', req.body);
+      const { repoUrl } = req.body;
+      if (!repoUrl) {
+        throw new Error('Repository URL is required');
+      }
+      const options = {};
+  
+      const outputFilePath = await generateProjectContext(repoUrl, options);
+      
+      console.log('Context generated successfully:', outputFilePath);
+      res.json({ filePath: outputFilePath });
+    } catch (error) {
+      console.error('Error generating context:', error);
+      res.status(500).json({ error: error.message || 'An error occurred while generating the context file.' });
     }
-    // Delete the file after download
-    fs.unlink(filePath).catch(console.error);
   });
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+  
+  app.get('/download/:filename', async (req, res) => {
+    const filePath = path.join(os.tmpdir(), req.params.filename);
+    console.log('Attempting to download file:', filePath);
+    res.download(filePath, (err) => {
+      if (err) {
+        console.error('Error downloading file:', err);
+        res.status(500).send('Error downloading the file.');
+      } else {
+        console.log('File downloaded successfully');
+        fs.unlink(filePath).catch(error => console.error('Error deleting file:', error));
+      }
+    });
+  });
+  
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+  
