@@ -74,17 +74,20 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - [Anthropic](https://www.anthropic.com/) for Claude AI
 
 
-Repo-Distillery/
+REPO-DISTILLERY/
 ├── backend/
 │   ├── back_env/
 │   ├── node_modules/
-│   └── src/
-│       ├── index.js
-│       ├── package-lock.json
-│       ├── package.json
-│       ├── requirements.txt
-│       └── server.js
+│   ├── src/
+│   │   └── index.js
+│   ├── .gitignore
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── Procfile
+│   ├── requirements.txt
+│   └── server.js
 ├── frontend/
+│   ├── .vercel/
 │   ├── .vscode/
 │   ├── delta_env/
 │   ├── node_modules/
@@ -92,32 +95,38 @@ Repo-Distillery/
 │   │   ├── favicon.png
 │   │   ├── index.html
 │   │   └── manifest.json
-│   └── src/
-│       ├── assets/
-│       │   └── claude-logo.png
-│       ├── components/
-│       ├── context/
-│       ├── hooks/
-│       ├── pages/
-│       │   ├── AboutPage.js
-│       │   ├── MainPage.js
-│       │   └── NotFound.js
-│       ├── services/
-│       ├── utils/
-│       ├── App.js
-│       ├── index.css
-│       ├── index.js
-│       ├── reportWebVitals.js
-│       ├── tailwind.css
-│       ├── .env.example
-│       ├── package-lock.json
-│       ├── package.json
-│       ├── postcss.config.js
-│       ├── README.md
-│       ├── requirements.txt
-│       └── tailwind.config.js
+│   ├── src/
+│   │   ├── assets/
+│   │   │   └── claude-logo.png
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   │   ├── AboutPage.js
+│   │   │   ├── MainPage.js
+│   │   │   └── NotFound.js
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── App.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── reportWebVitals.js
+│   │   └── tailwind.css
+│   ├── .env.example
+│   ├── .env.local
+│   ├── .gitignore
+│   ├── .vercelignore
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── README.md
+│   └── tailwind.config.js
 ├── node_modules/
+├── src/
+│   └── index.js
 ├── .gitignore
 ├── package-lock.json
 ├── package.json
-└── README.md
+├── Procfile
+├── README.md
+└── requirements.txt
