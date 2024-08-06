@@ -1,3 +1,4 @@
 backend
-   *.py
-   requirements.txt
+*.py
+requirements.txt
+node_modules
