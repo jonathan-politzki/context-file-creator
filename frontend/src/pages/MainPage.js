@@ -14,8 +14,9 @@ const MainPage = () => {
     setLoading(true);
     setError(null);
     setDownloadLink(null);
-  
+
     try {
+      console.log('Submitting URL:', url);
       const response = await fetch('http://localhost:3001/generate-context', {
         method: 'POST',
         headers: {
@@ -23,13 +24,14 @@ const MainPage = () => {
         },
         body: JSON.stringify({ repoUrl: url }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to generate context file');
       }
-  
+
       const data = await response.json();
+      console.log('Received data:', data);
       const filename = data.filePath.split('/').pop();
       setDownloadLink(`http://localhost:3001/download/${filename}`);
     } catch (err) {
@@ -38,8 +40,8 @@ const MainPage = () => {
     } finally {
       setLoading(false);
     }
-  };  
-  
+  };
+
   return (
     <div className="min-h-screen bg-off-white text-gray-900 flex flex-col items-center justify-center">
       <nav className="absolute top-0 left-0 right-0 p-4 bg-claude-orange">
