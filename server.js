@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(cors({
-  origin: 'http://localhost:3000', // This is your frontend URL
+  origin: ['http://localhost:3000', 'https://your-frontend-url.vercel.app'], // Add your frontend URL here, assuming this will need to be changed 
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
