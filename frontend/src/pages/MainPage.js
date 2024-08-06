@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import claudeLogo from '../assets/claude-logo.png';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com';
+const API_URL = 'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com';
 
 const MainPage = () => {
   const [url, setUrl] = useState('');
@@ -13,12 +13,7 @@ const MainPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setDownloadLink(null);
-
     try {
-      console.log('Submitting URL:', url);
       const response = await fetch(`${API_URL}/generate-context`, {
         method: 'POST',
         headers: {
@@ -26,21 +21,16 @@ const MainPage = () => {
         },
         body: JSON.stringify({ repoUrl: url }),
       });
-
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to generate context file');
+        throw new Error('Network response was not ok');
       }
-
+      
       const data = await response.json();
-      console.log('Received data:', data);
-      const filename = data.filePath.split('/').pop();
-      setDownloadLink(`${API_URL}/download/${filename}`);
-    } catch (err) {
-      console.error('Error:', err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      // Handle successful response
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error
     }
   };
 
