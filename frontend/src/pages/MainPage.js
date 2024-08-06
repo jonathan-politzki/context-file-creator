@@ -53,7 +53,7 @@ const MainPage = () => {
     <div className="min-h-screen bg-off-white text-gray-900 flex flex-col items-center justify-center">
       <nav className="absolute top-0 left-0 right-0 p-4 bg-claude-orange">
         <div className="container mx-auto flex justify-between items-center">
-          <img src={claudeLogo} alt="Claude Logo" className="h-8" />
+          <img src={claudeLogo} alt="Coding Context Logo" className="h-8" />
           <ul className="flex space-x-4">
             <li><Link to="/" className="text-white hover:text-gray-200">Home</Link></li>
             <li><Link to="/about" className="text-white hover:text-gray-200">About</Link></li>
@@ -61,8 +61,13 @@ const MainPage = () => {
         </div>
       </nav>
       <div className="text-center mb-8 mt-16">
-        <h1 className="text-4xl font-bold mb-2 text-claude-orange">Claude Agent Project Context Generator</h1>
-        <p className="text-xl text-gray-700">Generate project context for Claude AI</p>
+        <h1 className="text-4xl font-bold mb-2 text-claude-orange">Coding Context File Generator</h1>
+        <p className="text-xl text-gray-700 mb-4">Generate concise project context for AI analysis</p>
+        <p className="text-sm text-gray-600 mb-6">
+          Note: The generated file will be optimized for size. 
+          .gitignore rules will be applied, and irrelevant files will be excluded 
+          for a clean, organized context ready for AI processing.
+        </p>
       </div>
       <form onSubmit={handleSubmit} className="w-full max-w-md">
         <div className="flex items-center border-b border-claude-orange py-2">
@@ -78,7 +83,7 @@ const MainPage = () => {
             type="submit"
             disabled={loading}
           >
-            {loading ? 'Processing...' : 'Analyze'}
+            {loading ? 'Processing...' : 'Generate'}
           </button>
         </div>
       </form>
@@ -98,14 +103,14 @@ const MainPage = () => {
             {downloadLink && (
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-claude-orange">Context File Generated</h2>
-                <p className="text-gray-700 mb-4">Your project context file is ready for download.</p>
+                <p className="text-gray-700 mb-4">Your optimized project context file is ready for download.</p>
                 <a
-                  href={downloadLink}
-                  download
-                  className="bg-claude-orange hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Download Context File
-                </a>
+                href={downloadLink}
+                download
+                className="bg-claude-orange hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Download Context File
+              </a>
               </div>
             )}
           </motion.div>
