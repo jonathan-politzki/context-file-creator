@@ -1,5 +1,5 @@
 {
-  "name": "repo-distillery",
+  "name": "context-file-creator",
   "version": "1.0.0",
   "description": "Generate comprehensive context of a GitHub project by cloning and merging selected files",
   "scripts": {

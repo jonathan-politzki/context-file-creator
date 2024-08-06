@@ -1,6 +1,6 @@
 {
-  "name": "writer-analysis-tool",
-  "version": "0.1.0",
+  "name": "context-file-creator-frontend",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@vercel/analytics": "^1.3.1",
