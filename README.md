@@ -1,56 +1,82 @@
-# Claude Agent Project Context Generator
+# Coding Context File Generator
 
-Claude Agent Project Context Generator is a web application that simplifies the process of creating context files from GitHub repositories for use with Claude AI. This tool helps developers quickly generate comprehensive project overviews, making it easier to work with Claude AI on their projects.
+Coding Context File Generator is a web application that simplifies the process of creating context files from GitHub repositories for use with AI models. This tool helps developers quickly generate concise and optimized project overviews, making it easier to work with AI on their projects.
 
 ## Features
 
 - Easy-to-use web interface
 - GitHub repository processing
-- Automatic context file generation
+- Automatic context file generation with .gitignore application
+- Exclusion of irrelevant files for optimized output
 - Secure and temporary file handling
 - Responsive design with Tailwind CSS
+- Google Analytics integration for usage tracking
+- Vercel Analytics and Speed Insights for performance monitoring
 
+## Project Structure
+REPO-DISTILLERY/
+├── backend/
+│   ├── src/
+│   │   └── index.js
+│   ├── server.js
+│   ├── package.json
+│   └── ... (other backend files)
+├── frontend/
+│   ├── public/
+│   │   ├── index.html
+│   │   └── ... (other public assets)
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── MainPage.js
+│   │   │   ├── AboutPage.js
+│   │   │   └── NotFound.js
+│   │   ├── App.js
+│   │   └── ... (other frontend source files)
+│   ├── package.json
+│   └── ... (other frontend config files)
+├── package.json
+└── README.md
+Copy
 ## Prerequisites
 
 - Node.js (v14 or later)
-- npm (v6 or later)
+- npm (v6 or later) or pnpm
 - Git
 
 ## Installation
 
 1. Clone the repository:
-   ```
-   git clone https://github.com/your-username/claude-agent-project-context-generator.git
-   cd claude-agent-project-context-generator
-   ```
-
+git clone https://github.com/your-username/coding-context-file-generator.git
+cd coding-context-file-generator
+Copy
 2. Install dependencies for both frontend and backend:
-   ```
-   cd frontend && npm install
-   cd ../backend && npm install
-   ```
-
+cd frontend && npm install
+cd ../backend && npm install
+Copy
 3. Create `.env` files for both frontend and backend with necessary configuration (see `.env.example` files).
 
 ## Usage
 
 1. Start the backend server:
-   ```
-   cd backend
-   npm start
-   ```
-
+cd backend
+npm start
+Copy
 2. In a new terminal, start the frontend development server:
-   ```
-   cd frontend
-   npm start
-   ```
-
+cd frontend
+npm start
+Copy
 3. Open your browser and navigate to `http://localhost:3000`.
 
-4. Enter a GitHub repository URL and click "Analyze" to generate the context file.
+4. Enter a GitHub repository URL and click "Generate" to create the context file.
 
-5. Download the generated context file and use it with Claude AI.
+5. Download the generated context file and use it with your preferred AI model.
+
+## Deployment
+
+- The backend is deployed on Heroku.
+- The frontend is deployed on Vercel.
+
+Ensure that you've set up the necessary environment variables on both platforms.
 
 ## Contributing
 
@@ -71,62 +97,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 - [React](https://reactjs.org/)
 - [Express](https://expressjs.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Anthropic](https://www.anthropic.com/) for Claude AI
-
-
-REPO-DISTILLERY/
-├── backend/
-│   ├── back_env/
-│   ├── node_modules/
-│   ├── src/
-│   │   └── index.js
-│   ├── .gitignore
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── Procfile
-│   ├── requirements.txt
-│   └── server.js
-├── frontend/
-│   ├── .vercel/
-│   ├── .vscode/
-│   ├── delta_env/
-│   ├── node_modules/
-│   ├── public/
-│   │   ├── favicon.png
-│   │   ├── index.html
-│   │   └── manifest.json
-│   ├── src/
-│   │   ├── assets/
-│   │   │   └── claude-logo.png
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   │   ├── AboutPage.js
-│   │   │   ├── MainPage.js
-│   │   │   └── NotFound.js
-│   │   ├── services/
-│   │   ├── utils/
-│   │   ├── App.js
-│   │   ├── index.css
-│   │   ├── index.js
-│   │   ├── reportWebVitals.js
-│   │   └── tailwind.css
-│   ├── .env.example
-│   ├── .env.local
-│   ├── .gitignore
-│   ├── .vercelignore
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── README.md
-│   └── tailwind.config.js
-├── node_modules/
-├── src/
-│   └── index.js
-├── .gitignore
-├── package-lock.json
-├── package.json
-├── Procfile
-├── README.md
-└── requirements.txt
+- [Vercel](https://vercel.com/) for frontend hosting and analytics
+- [Heroku](https://www.heroku.com/) for backend hosting
+- [Google Analytics](https://analytics.google.com/) for usage tracking
