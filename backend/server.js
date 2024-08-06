@@ -10,7 +10,10 @@ const ignore = require('ignore');
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3001' // This is where your React app is running
+}));
+
 app.use(express.json());
 
 async function cloneRepository(repoUrl) {

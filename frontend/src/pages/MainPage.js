@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import claudeLogo from '../assets/claude-logo.png';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 const MainPage = () => {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,7 @@ const MainPage = () => {
 
     try {
       console.log('Submitting URL:', url);
-      const response = await fetch('http://localhost:3001/generate-context', {
+      const response = await fetch(`${API_URL}/generate-context`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,7 +35,7 @@ const MainPage = () => {
       const data = await response.json();
       console.log('Received data:', data);
       const filename = data.filePath.split('/').pop();
-      setDownloadLink(`http://localhost:3001/download/${filename}`);
+      setDownloadLink(`${API_URL}/download/${filename}`);
     } catch (err) {
       console.error('Error:', err);
       setError(err.message);
@@ -41,6 +43,7 @@ const MainPage = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-off-white text-gray-900 flex flex-col items-center justify-center">
