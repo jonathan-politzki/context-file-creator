@@ -15,20 +15,26 @@ app.get('/', (req, res) => {
 });
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://repo-distillery.vercel.app', 'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com'],
+  origin: ['http://localhost:3000', 'https://repo-distillery.vercel.app', 'https://repo-distillery-47qelwkaj-jonathan-politzkis-projects.vercel.app'],
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 
 app.use(express.json());
 
 async function cloneRepository(repoUrl) {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'project-context-'));
-    console.log(`Cloning repository to ${tempDir}...`);
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'project-context-'));
+  console.log(`Cloning repository to ${tempDir}...`);
+  try {
     execSync(`git clone ${repoUrl} ${tempDir}`, { stdio: 'inherit' });
     return tempDir;
+  } catch (error) {
+    console.error('Error cloning repository:', error);
+    throw new Error(`Failed to clone repository: ${error.message}`);
   }
+}
   async function readGitignore(dir) {
     try {
       const gitignorePath = path.join(dir, '.gitignore');

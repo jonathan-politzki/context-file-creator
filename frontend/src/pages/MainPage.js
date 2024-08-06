@@ -25,6 +25,7 @@ const MainPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ repoUrl: url }),
+        credentials: 'include'
       });
   
       if (!response.ok) {
@@ -47,8 +48,7 @@ const MainPage = () => {
       setLoading(false);
     }
   };
-
-
+  
   return (
     <div className="min-h-screen bg-off-white text-gray-900 flex flex-col items-center justify-center">
       <nav className="absolute top-0 left-0 right-0 p-4 bg-claude-orange">
