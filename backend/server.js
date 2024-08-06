@@ -10,8 +10,12 @@ const ignore = require('ignore');
 const app = express();
 const port = process.env.PORT || 3001;
 
+app.get('/', (req, res) => {
+  res.send('Repo Distillery Backend is running!');
+});
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://your-frontend-url.vercel.app'], // Add your frontend URL here, assuming this will need to be changed 
+  origin: ['http://localhost:3000', 'https://your-frontend-url.vercel.app', 'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com/'],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -203,6 +207,8 @@ async function cloneRepository(repoUrl) {
     });
   });
   
+  // Use the PORT environment variable
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
+  
