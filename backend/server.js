@@ -21,9 +21,9 @@ app.get('/', (req, res) => {
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://repo-distillery.vercel.app',
+    'https://context-file-creator.vercel.app',
     'https://context-gen-app-980c368d206f.herokuapp.com',
-    /https:\/\/repo-distillery-.*\.vercel\.app$/
+    /https:\/\/context-file-creator-.*\.vercel\.app$/
   ],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],

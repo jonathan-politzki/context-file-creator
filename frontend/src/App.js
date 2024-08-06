@@ -8,10 +8,18 @@ import NotFound from './pages/NotFound';
 import { useGoogleAnalytics } from './useGoogleAnalytics';
 
 function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
   useGoogleAnalytics();
 
   return (
-    <Router>
+    <>
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -19,7 +27,7 @@ function App() {
       </Routes>
       <Analytics />
       <SpeedInsights />
-    </Router>
+    </>
   );
 }
 
