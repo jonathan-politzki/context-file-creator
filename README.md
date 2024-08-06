@@ -1,57 +1,75 @@
-# Repo-Distillery
+# Claude Agent Project Context Generator
 
-A script that intakes a link of your repository, pulls files, their structure, and their contents into a single file to be easily generated and added to Claude.
+Claude Agent Project Context Generator is a web application that simplifies the process of creating context files from GitHub repositories for use with Claude AI. This tool helps developers quickly generate comprehensive project overviews, making it easier to work with Claude AI on their projects.
 
-Potential future additions:
+## Features
 
-Adding support for private repositories (using GitHub API tokens)
-Implementing a web interface where users can input a GitHub URL
-Adding options to customize exclude patterns and include extensions via command-line arguments
-Generating output in different formats (e.g., Markdown, HTML)
-Implementing a caching system to avoid re-cloning repositories that have been processed recently
+- Easy-to-use web interface
+- GitHub repository processing
+- Automatic context file generation
+- Secure and temporary file handling
+- Responsive design with Tailwind CSS
 
-This tool generates a comprehensive context of a GitHub project by cloning the repository and merging selected files into a single document. It's particularly useful for providing context to large language models (LLMs) or for creating project overviews.
-Features
+## Prerequisites
 
-Clones GitHub repositories
-Supports focusing on specific subfolders
-Customizable file inclusion and exclusion patterns
-Output in a structured format with file paths
-Configurable output location
+- Node.js (v14 or later)
+- npm (v6 or later)
+- Git
 
-Prerequisites
+## Installation
 
-Node.js (version 12 or higher)
-Git
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/claude-agent-project-context-generator.git
+   cd claude-agent-project-context-generator
+   ```
 
-Installation
+2. Install dependencies for both frontend and backend:
+   ```
+   cd frontend && npm install
+   cd ../backend && npm install
+   ```
 
-Clone this repository:
-Copygit clone https://github.com/yourusername/github-project-context-generator.git
+3. Create `.env` files for both frontend and backend with necessary configuration (see `.env.example` files).
 
-Navigate to the project directory:
-Copycd github-project-context-generator
+## Usage
 
-Install dependencies:
-Copynpm install
+1. Start the backend server:
+   ```
+   cd backend
+   npm start
+   ```
 
+2. In a new terminal, start the frontend development server:
+   ```
+   cd frontend
+   npm start
+   ```
 
-Usage
-Run the script with a GitHub repository URL and optional arguments:
-Copynode src/index.js <repo-url> [options]
-Options:
+3. Open your browser and navigate to `http://localhost:3000`.
 
---subfolder=<path>: Specify a subfolder within the repository to focus on
---exclude=<patterns>: Comma-separated list of glob patterns to exclude
---include=<patterns>: Comma-separated list of glob patterns to include
---output=<path>: Specify the output directory for the generated file (default: current directory)
+4. Enter a GitHub repository URL and click "Analyze" to generate the context file.
 
-Example:
-Copynode src/index.js https://github.com/username/repo-name.git --subfolder=frontend --exclude=node_modules/**,build/**,*.log --include=**/*.js,**/*.jsx,**/*.css,**/*.html --output=/path/to/output/directory
-Note: When using wildcards in exclude or include patterns, make sure to wrap the entire argument in quotes to prevent shell expansion:
-Copynode src/index.js https://github.com/username/repo-name.git --subfolder=frontend "--exclude=node_modules/**,build/**,*.log" "--include=**/*.js,**/*.jsx,**/*.css,**/*.html" --output=/path/to/output/directory
-The generated context will be saved as a text file in the specified output directory (or the current directory if not specified).
-Contributing
+5. Download the generated context file and use it with Claude AI.
+
+## Contributing
+
 Contributions are welcome! Please feel free to submit a Pull Request.
-License
-This project is licensed under the MIT License.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+## Acknowledgements
+
+- [React](https://reactjs.org/)
+- [Express](https://expressjs.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Anthropic](https://www.anthropic.com/) for Claude AI
+
