@@ -5,8 +5,11 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import MainPage from './pages/MainPage';
 import AboutPage from './pages/AboutPage';
 import NotFound from './pages/NotFound';
+import { useGoogleAnalytics } from './useGoogleAnalytics';
 
 function App() {
+  useGoogleAnalytics();
+
   return (
     <Router>
       <Routes>

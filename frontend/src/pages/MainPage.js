@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import claudeLogo from '../assets/claude-logo.png';
+import { sendGAEvent } from '../analytics';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com';
 
@@ -38,16 +39,19 @@ const MainPage = () => {
       if (data.filePath) {
         const filename = data.filePath.split('/').pop();
         setDownloadLink(`${API_URL}/download/${filename}`);
+        sendGAEvent('generate_context', 'engagement', url);
       } else {
         throw new Error('No file path received from server');
       }
     } catch (error) {
       console.error('Error:', error);
       setError(error.message);
+      sendGAEvent('generate_context_error', 'error', error.message);
     } finally {
       setLoading(false);
     }
   };
+
   
   return (
     <div className="min-h-screen bg-off-white text-gray-900 flex flex-col items-center justify-center">

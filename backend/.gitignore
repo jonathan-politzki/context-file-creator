@@ -26,3 +26,6 @@ backend/.env
 .DS_Store
 .idea/
 .vscode/
+
+# User feedback
+backend/feedback/
