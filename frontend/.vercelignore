@@ -1,4 +1,5 @@
 backend
-*.py
-requirements.txt
 node_modules
+*.log
+.git
+
