@@ -1,2 +1,0 @@
-echo "web: cd backend && npm start" > Procfile
-
