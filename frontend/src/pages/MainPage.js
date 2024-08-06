@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import claudeLogo from '../assets/claude-logo.png';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_URL = process.env.REACT_APP_API_URL || 'https://repo-distillery-backend-5e5b8d247bee.herokuapp.com';
 
 const MainPage = () => {
   const [url, setUrl] = useState('');
