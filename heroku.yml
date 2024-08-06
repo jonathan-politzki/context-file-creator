@@ -1,5 +1,0 @@
-build:
-  docker:
-    web: backend/Dockerfile
-run:
-  web: cd backend && node server.js
