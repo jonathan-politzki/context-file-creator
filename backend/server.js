@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 app.use(cors({
   origin: [
     'http://localhost:3000',
+    'https://repo-distillery.vercel.app',
     'https://context-file-creator.vercel.app',
     'https://context-gen-app-980c368d206f.herokuapp.com',
     /https:\/\/context-file-creator-.*\.vercel\.app$/
@@ -29,7 +30,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
-
 app.use(express.json());
 
 async function cloneRepository(repoUrl) {
