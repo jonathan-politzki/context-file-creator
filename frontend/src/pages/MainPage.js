@@ -69,7 +69,7 @@ const MainPage = () => {
         <p className="text-xl text-gray-700 mb-4">Generate concise project context for AI analysis</p>
         <p className="text-sm text-gray-600 mb-6">
           Note: The generated file will be optimized for size. 
-          .gitignore rules will be applied, and irrelevant files will be excluded 
+          .gitignore rules will be applied, package-lock.json and other irrelevant files removed 
           for a clean, organized context ready for AI processing.
         </p>
       </div>
