@@ -161,7 +161,7 @@ async function cloneRepository(repoUrl) {
       clonedDir = await cloneRepository(repoUrl);
       
       const baseDir = options.subfolder ? path.join(clonedDir, options.subfolder) : clonedDir;
-      const excludePatterns = options.exclude || ['.git/**', '.github/**'];
+      const excludePatterns = options.exclude || ['.git/**', '.github/**', 'package-lock.json'];
       const includePatterns = options.include || ['**/*'];
       
       const gitignore = await readGitignore(baseDir);
