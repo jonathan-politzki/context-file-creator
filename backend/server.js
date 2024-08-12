@@ -61,6 +61,13 @@ function isTextFile(filePath) {
   return textExtensions.includes(ext) || ext === '';
 }
 
+function shouldExcludeFile(relativePath) {
+  // Exclude frontend build files and NLTK data files
+  return relativePath.includes('frontend/build') ||
+         relativePath.includes('frontend/dist') ||
+         relativePath.includes('nltk_data');
+}
+
 async function processDirectory(dir, excludePatterns, includePatterns, gitignore) {
   const selectedFiles = [];
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -69,7 +76,7 @@ async function processDirectory(dir, excludePatterns, includePatterns, gitignore
     const fullPath = path.join(dir, entry.name);
     const relativePath = path.relative(dir, fullPath);
     
-    if (gitignore.ignores(relativePath) || isGitInternalFile(relativePath)) {
+    if (gitignore.ignores(relativePath) || isGitInternalFile(relativePath) || shouldExcludeFile(relativePath)) {
       continue;
     }
     
@@ -203,6 +210,7 @@ app.get('/download/:filename', async (req, res) => {
   });
 });
 
+// This should be the last line in your file
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
